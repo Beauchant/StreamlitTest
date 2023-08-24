@@ -1,3 +1,4 @@
+import base64
 import time
 
 import streamlit as st
@@ -15,20 +16,26 @@ st.checkbox("Pen")
 st.checkbox("Pencil")
 
 # Button
-st.button("I'm a button")
+def btn():
+    st.write("Button clicked!")
+
+
+st.button("I'm a button", on_click=btn)
 
 # RadioButton
 sex = st.radio("Gender", ["Male", "Female"])
 st.text(f"You are a {sex}")
+country = st.radio("In which country do you live?", options=("UK", "USA", "Haiti"))
 
 # Dropdown list (select box)
 st.selectbox("(Select): Choose an option", ["Anglais", "Informatiques", "Math"])
 
 # Multiselect
-st.multiselect("(Multiselect): Choose an option", ["Anglais", "Informatiques", "Math"])
+multiselect = st.multiselect("(Multiselect): Choose an option", ["Anglais", "Informatiques", "Math"])
+st.write(multiselect)
 
 # Slider
-st.slider("(Slider): Choose your number", 0, 100)
+st.slider("(Slider): Choose your number", min_value=0, max_value=100)
 
 # Select_slider
 st.select_slider("(Select_slider): Rating", ["Bod", "Good", "Excellent", "Outstanding"])
@@ -56,10 +63,13 @@ message = st.text_area("Write a comment")
 st.write(message)
 
 # File uploader
-file = st.file_uploader("Choose your file")
+file = st.file_uploader("Choose your image", type=['.png', '.jpg', '.gif'], accept_multiple_files=True)
 if file is not None:
     st.image(file)
 
+video = st.file_uploader("Choose your video", type=['.mp4'])
+if video is not None:
+    st.video(video)
 
 # Using color picker
 pick = st.color_picker("Choose your color")
@@ -77,12 +87,20 @@ st.balloons()
 # Create sidebar
 st.sidebar.title("My Sidebar")
 em1 = st.sidebar.text_input("Email")
-password = st.sidebar.text_input("Password")
-st.sidebar.button("Submit")
+password = st.sidebar.text_input("Password", type="password")
+
+
+def emp():
+    st.sidebar.write(f"Email: {em1}, Password: {password}")
+
+
+st.sidebar.button("Submit", on_click=emp)
 
 # Jason
 st.json({"name": "Bob, Martha, Toto", "age": "12, 14, 17"})
 st.json({"name": ["Bob, Martha, Toto"], "age": ["12, 14, 17"]})
+
+st.markdown("---")  # add a horizontal bar
 
 code = """
 # Using json format in Streamlit
@@ -142,3 +160,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+def show_pdf(file_path):
+    with open(file_path,"rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" ' \
+                  f'type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
+
+show_pdf('Lettre de motivation.pdf')
