@@ -161,12 +161,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def show_pdf(file_path):
-    with open(file_path,"rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" ' \
-                  f'type="application/pdf"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
+uploaded_files = st.file_uploader("Choose a CSV file", accept_multiple_files=True)
 
-
-show_pdf('Lettre de motivation.pdf')
+for uploaded_file in uploaded_files:
+    with open(uploaded_file.name, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+        pdf_display = F'<iframe src="data:application/pdf;base64,\
+        {base64_pdf}" width="700" height="200" type="application/pdf"></iframe>'
+        st.markdown(pdf_display, unsafe_allow_html=True)
