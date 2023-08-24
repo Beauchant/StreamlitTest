@@ -3,6 +3,15 @@ import time
 
 import streamlit as st
 
+# Set page configuration
+# st.set_page_config(
+#     page_title="Custom Background Color",
+#     page_icon="🎨",
+#     layout="wide",
+#     initial_sidebar_state="expanded",
+#     background_color="#f0f0f0",  # Set your desired background color
+# )
+
 st.title("Bienvenue!")
 st.title("My first Streamlit App")
 st.markdown("I'm very **happy** to learning **Streamlit** now.")
@@ -147,19 +156,13 @@ st.video("Disney.mp4")
 # Playing audio
 st.audio("Best.aac")
 
-st.markdown("""
+hide_menu_style = """
 <style>
-            .css-6q9sum.ef3psqc3
-            {
-                visibility: hidden;
-            }
-            .css-cio0dv.ea3mdgi1
-            {
-                visibility: hidden;
-            }
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
 </style>
-""", unsafe_allow_html=True)
-
+"""
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 uploaded_files = st.file_uploader("Choose a CSV file", accept_multiple_files=True)
 
